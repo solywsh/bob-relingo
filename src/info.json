@@ -1,0 +1,25 @@
+{
+  "identifier": "com.solywsh.bob.relingo",
+  "version": "0.1.1",
+  "category": "translate",
+  "name": "bob relingo",
+  "summary": "bob/relingo联动，可将单词掌握同步自relingo",
+  "icon": "",
+  "author": "solywsh.wang <dont@panic.ltd>",
+  "homepage": "https://github.com/solywsh/bob-relingo.git",
+  "appcast": "https://raw.githubusercontent.com/solywsh/bob-relingo/main/appcast.json",
+  "minBobVersion": "0.5.0",
+  "options": [
+    {
+      "identifier": "token",
+      "type": "text",
+      "title": "token",
+      "textConfig": [
+        {
+          "type": "secure"
+        }
+      ],
+      "desc": "查词开关,查到单词自动按照单词格式展开(默认开启)"
+    }
+  ]
+}
