@@ -1,1 +1,4 @@
 .idea
+*.zip
+*.bobplugin
+build

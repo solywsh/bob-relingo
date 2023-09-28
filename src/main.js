@@ -1,28 +1,8 @@
-/**
- * 由于各大服务商的语言代码都不大一样，
- * 所以我定义了一份 Bob 专用的语言代码，以便 Bob 主程序和插件之间互传语种。
- * Bob 语言代码列表 https://ripperhe.gitee.io/bob/#/plugin/addtion/language
- *
- * 转换的代码建议以下面的方式实现，
- * `xxx` 代表服务商特有的语言代码，请替换为真实的，
- * 具体支持的语种数量请根据实际情况而定。
- *
- * Bob 语言代码转服务商语言代码(以为 'zh-Hans' 为例): var lang = langMap.get('zh-Hans');
- * 服务商语言代码转 Bob 语言代码: var standardLang = langMapReverse.get('xxx');
- */
-
-var items = [
-    ['auto', 'xxx'],
-    ['zh-Hans', 'xxx'],
-    ['zh-Hant', 'xxx'],
-    ['en', 'xxx'],
-];
-
-var langMap = new Map(items);
-var langMapReverse = new Map(items.map(([standardLang, lang]) => [lang, standardLang]));
-
+var config = require('./config.js');
+var utils = require('./utils.js');
+var relingo = require('./relingo.js');
 function supportLanguages() {
-    return items.map(([standardLang, lang]) => standardLang);
+    return config.supportedLanguages.map(([standardLang]) => standardLang);
 }
 
 function translate(query, completion) {
@@ -32,3 +12,61 @@ function translate(query, completion) {
     // 翻译失败
     // completion({'error': error});
 }
+
+// 邮箱信息验证
+function pluginValidate(completion) {
+    (async () => {;
+        if (($option.mail === "")) {
+            completion({
+                result: false,
+                error: {
+                    type: "secretKey",
+                    message: "邮箱为空",
+                    troubleshootingLink: config.helpUrl,
+                }
+            });
+            return;
+        }
+        switch (config.getConfig().status ) {
+            case "init":
+                await relingo.authorization()
+                completion({
+                    result: false,
+                    error: {
+                        type: "secretKey",
+                        message: "邮箱验证码已经发送，请将验证码填入邮箱验证码中",
+                        troubleshootingLink: config.helpUrl,
+                    }
+                });
+                return;
+            case "waitingCode":
+                if ($option.mailCode === "") {
+                    completion({
+                        result: false,
+                        error: {
+                            type: "secretKey",
+                            message: "短信验证码为空",
+                            troubleshootingLink: config.helpUrl,
+                        }
+                    });
+                    return;
+                }else {
+                    await relingo.loginByCode()
+                    completion({
+                        result: true,
+                    });
+                    return;
+                }
+        }
+    }) ().catch((err) => {
+        completion({
+            result: false,
+            error: {
+                type: err._type || 'unknown',
+                message: err._message || '未知错误',
+                troubleshootingLink: err._troubleshootingLink || config.helpUrl,
+            }
+        });
+    });
+}
+

@@ -1,25 +1,32 @@
 {
   "identifier": "com.solywsh.bob.relingo",
-  "version": "0.1.1",
+  "version": "0.0.1",
   "category": "translate",
-  "name": "bob relingo",
+  "name": "Bob Relingo",
   "summary": "bob/relingo联动，可将单词掌握同步自relingo",
   "icon": "",
   "author": "solywsh.wang <dont@panic.ltd>",
   "homepage": "https://github.com/solywsh/bob-relingo.git",
   "appcast": "https://raw.githubusercontent.com/solywsh/bob-relingo/main/appcast.json",
-  "minBobVersion": "0.5.0",
+  "minBobVersion": "1.8.0",
   "options": [
     {
-      "identifier": "token",
+      "identifier": "email",
       "type": "text",
-      "title": "token",
-      "textConfig": [
-        {
-          "type": "secure"
-        }
-      ],
-      "desc": "查词开关,查到单词自动按照单词格式展开(默认开启)"
+      "title": "email",
+      "desc": "relingo 注册邮箱，用于获取用户词本, 输入后点击验证获取验证码",
+      "textConfig": {
+        "placeholderText": "example@mail.com"
+      }
+    },
+    {
+      "identifier": "mailCode",
+      "type": "text",
+      "title": "邮箱验证码",
+      "desc":"邮箱验证码，点击验证后会发送到邮箱，请先输入邮箱，再点击验证获取验证码，填入验证码后再点击验证",
+      "textConfig": {
+        "placeholderText": "xxxx"
+      }
     }
   ]
 }
