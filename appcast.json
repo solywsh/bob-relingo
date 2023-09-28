@@ -1,5 +1,12 @@
 {
   "identifier": "com.solywsh.bob.relingo",
   "versions": [
+    {
+      "version": "0.0.1",
+      "desc": "mail code login",
+      "sha256": "c3bc5e468e251572a4cfcf140732707204528bca9f73836b43e822a58cfbadc4",
+      "url": "https://github.com/solywsh/bob-relingo/releases/download/v0.0.1/bob-relingo_v0.0.1.bobplugin",
+      "minBobVersion": "0.5.0"
+    }
   ]
 }
