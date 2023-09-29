@@ -1,6 +1,6 @@
 {
   "identifier": "com.solywsh.bob.relingo",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "category": "translate",
   "name": "Bob Relingo",
   "summary": "bob/relingo联动，可将单词掌握同步自relingo",
@@ -13,9 +13,10 @@
     {
       "identifier": "email",
       "type": "text",
-      "title": "email",
-      "desc": "relingo 注册邮箱，用于获取用户词本, 输入后点击验证获取验证码",
+      "title": "邮箱",
+      "desc": "relingo 注册的邮箱。用于获取用户词本和token，输入后点击验证获取验证码",
       "textConfig": {
+        "type": "visible",
         "placeholderText": "example@mail.com"
       }
     },
@@ -23,10 +24,45 @@
       "identifier": "mailCode",
       "type": "text",
       "title": "邮箱验证码",
-      "desc":"邮箱验证码，点击验证后会发送到邮箱，请先输入邮箱，再点击验证获取验证码，填入验证码后再点击验证",
+      "desc":"邮箱验证码。请先输入邮箱，点击验证获取验证码，填入验证码后再点击验证",
       "textConfig": {
-        "placeholderText": "xxxx"
+        "type": "visible",
+        "placeholderText": "114514"
       }
+    },
+    {
+      "identifier": "wordModel",
+      "type": "menu",
+      "title": "查词模式",
+      "defaultValue": "1",
+      "menuValues": [
+        {
+          "title": "relingo全词本查询",
+          "value": "1"
+        },
+        {
+          "title": "relingo个人词本查询",
+          "value": "0"
+        }
+      ],
+      "desc": "查词模式，全词本查询会查询relingo所有收录，个人词本查询只会查询relingo个人词本(默认全词本查询)\n如果需要更新个人词本请在relingo中更新后再次点击验证进行bob更新"
+    },
+    {
+      "identifier": "additionalDisplay",
+      "type": "menu",
+      "title": "额外显示",
+      "defaultValue": "1",
+      "menuValues": [
+        {
+          "title": "显示词频/掌握",
+          "value": "1"
+        },
+        {
+          "title": "都不显示",
+          "value": "0"
+        }
+      ],
+      "desc": "额外显示，将会显示词频率，掌握情况(默认显示)"
     }
   ]
 }
