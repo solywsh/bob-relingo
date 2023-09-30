@@ -1,7 +1,7 @@
 var config = require('./config.js');
 var relingo = require('./relingo.js');
 var words = require('./word.js');
-
+var deepl = require('./deepl.js');
 
 var items = [
     ['auto', 'auto'],
@@ -47,22 +47,38 @@ function translate(query, completion) {
             });
             throw err;
         }
+        const userConfig = config.getConfig();
         const source_lang = sourceLanguage || 'en';
-        const target_lang = targetLanguage || config.getConfig().native;
+        const target_lang = targetLanguage || userConfig.native;
         const translate_text = query.text || '';
         if (translate_text !== '') {
             // 英文单词判定正则表达式
-            if (/^[a-zA-Z,\.\?!'\s]+$/.test(translate_text
-                && translate_text.split(/\s+/).filter(word => /^[a-zA-Z\s]+$/.test(word)).length === 1)) {
-                await words.translate(query, source_lang, target_lang, translate_text, completion);
+            if (/^[a-zA-Z,\.\?!'\s]+$/.test(translate_text)
+                && translate_text.split(/\s+/).filter(word => /^[a-zA-Z\s]+$/.test(word)).length === 1){
+                // 验证是否登录
+                if ($option.email !== ""
+                    && userConfig.token !== ""){
+                    try {
+                        await words.translate(query, source_lang, target_lang, translate_text, completion);
+                    }catch (e) {
+                        // relingo 未收录使用deepl翻译
+                        if (e._type === 'notFound' ){
+                            await deepl.translate(translate_text, sourceLanguage, targetLanguage, completion);
+                        }else {
+                            throw e;
+                        }
+                    }
+                    return;
+                }
             }
+            // 默认deepL
+            await deepl.translate(translate_text, sourceLanguage, targetLanguage , completion);
         }
     })().catch((err) => {
         completion({
             error: {
                 type: err._type || 'unknown',
-                message: err._message || '未知错误',
-                // addtion: err._addtion,
+                message: err._message || '未知错误' + JSON.stringify(err),
             },
         });
     });
@@ -106,7 +122,7 @@ function pluginValidate(completion) {
                     break;
                 }
             case "active":
-                // await relingo.getUserInfo();
+                await relingo.getUserInfo();
                 await relingo.getUserConfig();
                 break;
         }
@@ -123,7 +139,6 @@ function pluginValidate(completion) {
         });
     });
 }
-
 
 function pluginTimeoutInterval() {
     return 60;

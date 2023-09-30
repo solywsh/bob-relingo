@@ -1,9 +1,9 @@
 {
   "identifier": "com.solywsh.bob.relingo",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "category": "translate",
   "name": "Bob Relingo",
-  "summary": "bob/relingo联动，可将单词掌握同步自relingo",
+  "summary": "bob的relingo联动，可显示relingo个人单词掌握情况。",
   "icon": "",
   "author": "solywsh.wang <dont@panic.ltd>",
   "homepage": "https://github.com/solywsh/bob-relingo.git",

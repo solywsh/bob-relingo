@@ -1,6 +1,5 @@
 var config = require('./config.js');
 
-
 const relingoUrl = "https://api.relingo.net"
 
 // 获取验证码
@@ -77,7 +76,6 @@ async function loginByCode() {
             throw err;
         }
     } catch (e) {
-        $log.error('接口请求错误 ==> ' + JSON.stringify(e));
         Object.assign(e, {
             _type: e._type || 'network',
             _message: e._message || '接口请求错误 - ' + JSON.stringify(e),
@@ -119,7 +117,6 @@ async function getUserInfo() {
             throw err;
         }
     } catch (e) {
-        $log.error('接口请求错误 ==> ' + JSON.stringify(e));
         Object.assign(e, {
             _type: e._type || 'network',
             _message: e._message || '接口请求错误 - ' + JSON.stringify(e),
@@ -127,7 +124,6 @@ async function getUserInfo() {
         throw e;
     }
 }
-
 
 // 获取用户配置
 async function getUserConfig() {
@@ -173,7 +169,6 @@ async function getUserConfig() {
             throw err;
         }
     } catch (e) {
-        $log.error('接口请求错误 ==> ' + JSON.stringify(e));
         Object.assign(e, {
             _type: e._type || 'network',
             _message: e._message || '接口请求错误 - ' + JSON.stringify(e),
@@ -182,8 +177,7 @@ async function getUserConfig() {
     }
 }
 
-
-// 从单词本查询单词
+// 从单词本查询单词(自己的单词本)
 async function parseContent3(to, words) {
     try {
         const userConfig = config.getConfig();
@@ -224,7 +218,6 @@ async function parseContent3(to, words) {
             throw err;
         }
     } catch (e) {
-        $log.error('接口请求错误 ==> ' + JSON.stringify(e));
         Object.assign(e, {
             _type: e._type || 'network',
             _message: e._message || '接口请求错误 - ' + JSON.stringify(e),
@@ -233,6 +226,7 @@ async function parseContent3(to, words) {
     }
 }
 
+// 从单词本查询单词(relingo的单词本)
 async function lookupDict2(to, words) {
     try {
         const userConfig = config.getConfig();
@@ -271,7 +265,6 @@ async function lookupDict2(to, words) {
             throw err;
         }
     } catch (e) {
-        $log.error('接口请求错误 ==> ' + JSON.stringify(e));
         Object.assign(e, {
             _type: e._type || 'network',
             _message: e._message || '接口请求错误 - ' + JSON.stringify(e),

@@ -1,5 +1,7 @@
 var relingo = require('./relingo.js');
 var locales = require('./locales.js');
+
+// 单词翻译
 async function translate(query, source_lang, target_lang, translate_text, completion) {
     try {
         let data = {};
@@ -138,8 +140,8 @@ async function translate(query, source_lang, target_lang, translate_text, comple
     } catch (e) {
         $log.error('接口请求错误 ==> ' + JSON.stringify(e))
         Object.assign(e, {
-            _type: e._type || 'network',
-            _message: e._message || '接口请求错误 - ' + JSON.stringify(e),
+            _type: e._type || 'unknown',
+            _message: e._message || '未知错误' + JSON.stringify(e),
         });
         throw e;
     }
