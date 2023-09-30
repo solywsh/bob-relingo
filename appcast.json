@@ -2,6 +2,13 @@
   "identifier": "com.solywsh.bob.relingo",
   "versions": [
     {
+      "version": "0.0.5",
+      "desc": "show words variant",
+      "sha256": "cbc85f4bfbb443d1e9be974011b6723ea8551e4bd03bef5614eaadc551f181a0",
+      "url": "https://github.com/solywsh/bob-relingo/releases/download/v0.0.5/bob-relingo_v0.0.5.bobplugin",
+      "minBobVersion": "1.8.0"
+    },
+    {
       "version": "0.0.4",
       "desc": "modify word status",
       "sha256": "5fde6e62a1dafc8d54ab2298b25b6d782167743568ec55609a1e0357277c616c",
