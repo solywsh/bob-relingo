@@ -2,6 +2,7 @@ var config = require('./config.js');
 var relingo = require('./relingo.js');
 var words = require('./word.js');
 var deepl = require('./deepl.js');
+var utils = require('./utils.js');
 
 var items = [
     ['auto', 'auto'],
@@ -29,16 +30,15 @@ function supportLanguages() {
 
 function translate(query, completion) {
     (async () => {
+        if (await utils.checkVocabulary(query, completion)){
+            return;
+        }
         const sourceLanguage = langMap.get(query.detectFrom);
         const targetLanguage = langMap.get(query.detectTo);
-        if (sourceLanguage !== 'en') {
-            const err = new Error();
-            Object.assign(err, {
-                _type: 'unsupportLanguage',
-                _message: 'relingo插件只支持翻译英文',
-            });
-            throw err;
-        }
+        const userConfig = config.getConfig();
+        const source_lang = sourceLanguage || 'en';
+        const target_lang = targetLanguage || userConfig.native;
+        const translate_text = query.text || '';
         if (targetLanguage === '') {
             const err = new Error();
             Object.assign(err, {
@@ -47,13 +47,10 @@ function translate(query, completion) {
             });
             throw err;
         }
-        const userConfig = config.getConfig();
-        const source_lang = sourceLanguage || 'en';
-        const target_lang = targetLanguage || userConfig.native;
-        const translate_text = query.text || '';
         if (translate_text !== '') {
             // 英文单词判定正则表达式
-            if (/^[a-zA-Z,\.\?!'\s]+$/.test(translate_text)
+            if (sourceLanguage === 'en'
+                && /^[a-zA-Z,\.\?!'\s]+$/.test(translate_text)
                 && translate_text.split(/\s+/).filter(word => /^[a-zA-Z\s]+$/.test(word)).length === 1){
                 // 验证是否登录
                 if ($option.email !== ""
@@ -62,13 +59,10 @@ function translate(query, completion) {
                         await words.translate(query, source_lang, target_lang, translate_text, completion);
                     }catch (e) {
                         // relingo 未收录使用deepl翻译
-                        if (e._type === 'notFound' ){
-                            await deepl.translate(translate_text, sourceLanguage, targetLanguage, completion);
-                        }else {
+                        if (e._type !== 'notFound' ){
                             throw e;
                         }
                     }
-                    return;
                 }
             }
             // 默认deepL
@@ -119,6 +113,8 @@ function pluginValidate(completion) {
                     return;
                 } else {
                     await relingo.loginByCode()
+                    await relingo.getUserInfo();
+                    await relingo.getUserConfig();
                     break;
                 }
             case "active":

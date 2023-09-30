@@ -1,6 +1,6 @@
 {
   "identifier": "com.solywsh.bob.relingo",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "category": "translate",
   "name": "Bob Relingo",
   "summary": "bob的relingo联动，可显示relingo个人单词掌握情况。",
@@ -14,7 +14,7 @@
       "identifier": "email",
       "type": "text",
       "title": "邮箱",
-      "desc": "relingo 注册的邮箱。用于获取用户词本和token，输入后点击验证获取验证码",
+      "desc": "输入后点击验证获取验证码。",
       "textConfig": {
         "type": "visible",
         "placeholderText": "example@mail.com"
@@ -24,7 +24,7 @@
       "identifier": "mailCode",
       "type": "text",
       "title": "邮箱验证码",
-      "desc":"邮箱验证码。请先输入邮箱，点击验证获取验证码，填入验证码后再点击验证",
+      "desc":"请先输入邮箱，点击验证获取验证码，填入验证码后再点击验证。",
       "textConfig": {
         "type": "visible",
         "placeholderText": "114514"
@@ -45,7 +45,7 @@
           "value": "0"
         }
       ],
-      "desc": "查词模式，全词本查询会查询relingo所有收录，个人词本查询只会查询relingo个人词本(默认全词本查询)\n如果需要更新个人词本请在relingo中更新后再次点击验证进行bob更新"
+      "desc": "个人词本查询只会查询relingo个人添加的词本。"
     },
     {
       "identifier": "additionalDisplay",
@@ -62,7 +62,7 @@
           "value": "0"
         }
       ],
-      "desc": "额外显示，将会显示词频率，掌握情况(默认显示)"
+      "desc": "显示词频率，掌握情况等信息。"
     }
   ]
 }

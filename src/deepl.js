@@ -132,7 +132,6 @@ async function translate(query, from, to, completion) {
                     error: {
                         type: 'unknown',
                         message: errMsg,
-                        // addtion: errMsg,
                     },
                 });
             }

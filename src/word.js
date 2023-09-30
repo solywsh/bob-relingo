@@ -1,5 +1,7 @@
 var relingo = require('./relingo.js');
+var config = require('./config.js');
 var locales = require('./locales.js');
+const {configPath} = require("./config");
 
 // 单词翻译
 async function translate(query, source_lang, target_lang, translate_text, completion) {
@@ -108,16 +110,24 @@ async function translate(query, source_lang, target_lang, translate_text, comple
                 }
             }
             if (additionalDisplay==='1'){
+                let extraInfo = [];
+                extraInfo.push("掌握情况: " + (data.mastered ? '✅' : '❌'));
                 if (data.wordFrequency) {
-                    toDict.additions.push({
-                        "name": "词频",
-                        "value": '🌟'.repeat(data.wordFrequency),
-                    })
+                    extraInfo.push("词频: " + '🌟'.repeat(data.wordFrequency));
                 }
                 toDict.additions.push({
-                    "name": "掌握情况",
-                    "value": data.mastered ? '✅' : '❌',
+                    "name": "其他信息",
+                    "value": extraInfo.join('\n'),
                 })
+            }
+            // 更新词组，用作更新状态
+            const userConfig = config.getConfig();
+            userConfig.lastWords = data.word;
+            config.updateConfig(userConfig);
+            if (data.mastered){
+                toDict.exchanges.push({"name":"修改状态","words":["忘记了"]});
+            }else {
+                toDict.exchanges.push({"name":"修改状态","words":["已掌握"]})
             }
             completion({
                 result: {

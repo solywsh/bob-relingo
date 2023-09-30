@@ -1,5 +1,4 @@
 const configPath = "$sandbox/config.json";
-const relingoConfigPath = "$sandbox/relingoConfig.json";
 
 const defaultConfig = {
     "version": "0.0.1", // 配置版本号与插件版本区分
@@ -16,20 +15,23 @@ const defaultConfig = {
     "strange": "", // 陌生单词本
     "mastered": "", // 掌握的单词本
     books: [], // relingo books
+    "lastWords": "", // 上次查询的单词,用于遗忘和记住
 }
 
 function updateConfig(config) {
-    $file.write({
-        data: $data.fromUTF8(JSON.stringify(config)),
-        path: configPath,
-    })
-}
-
-function updateRelingoConfig(config) {
-    $file.write({
-        data: $data.fromUTF8(config),
-        path: relingoConfigPath,
-    })
+    if (config){
+        $file.write({
+            data: $data.fromUTF8(JSON.stringify(config)),
+            path: configPath,
+        })
+    }else {
+        const err = new Error();
+        Object.assign(err, {
+            _type: 'param',
+            _message: 'config异常，更新失败'+JSON.stringify(config),
+        });
+        throw err;
+    }
 }
 
 function getConfig() {
@@ -60,4 +62,3 @@ function configInit() {
 exports.configPath = configPath;
 exports.getConfig = getConfig;
 exports.updateConfig = updateConfig;
-exports.updateRelingoConfig = updateRelingoConfig;

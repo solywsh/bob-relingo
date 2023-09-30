@@ -141,7 +141,6 @@ async function getUserConfig() {
             }
         });
         if (resp.data && resp.data.code === 0) {
-            config.updateRelingoConfig(JSON.stringify(resp.data.data.config));
             userConfig.books = [];
             // userConfig.native = resp.data.data.config.lang.native; // 翻译语言，鉴于relingo其他语言翻译不够完善，暂时不使用
             for (const book of resp.data.data.config.books) {
@@ -273,9 +272,88 @@ async function lookupDict2(to, words) {
     }
 }
 
+// 遗忘单词
+async function removeVocabularyWords(words) {
+    try {
+        const userConfig = config.getConfig();
+        const resp = await $http.request({
+            method: "POST",
+            url: relingoUrl + "/api/removeVocabularyWords",
+            body: {
+                "id": userConfig.mastered,
+                "type": "strange",
+                "words": [words],
+            },
+            header: {
+                'x-relingo-lang': userConfig.lang,
+                'x-relingo-token': userConfig.token,
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
+            }
+        });
+        // $log.info(JSON.stringify(resp.data));
+        if (!resp.data || resp.data.code !== 0) {
+            const errMsg = resp.data.message ? JSON.stringify(resp.data.message) : '\"/api/removeVocabularyWords\"请求失败,请检查网络';
+            const err = new Error();
+            Object.assign(err, {
+                _type: 'api',
+                _message: errMsg,
+            });
+            throw err;
+        }
+    } catch (e) {
+        Object.assign(e, {
+            _type: e._type || 'network',
+            _message: e._message || '接口请求错误 - ' + JSON.stringify(e),
+        });
+        throw e;
+    }
+}
+
+// 掌握单词
+async function submitVocabulary(words) {
+    try {
+        const userConfig = config.getConfig();
+        const resp = await $http.request({
+            method: "POST",
+            url: relingoUrl + "/api/submitVocabulary",
+            body: {
+                "id": userConfig.mastered,
+                "type": "mastered",
+                "words": [words],
+            },
+            header: {
+                'x-relingo-lang': userConfig.lang,
+                'x-relingo-token': userConfig.token,
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
+            }
+        });
+        // $log.info(JSON.stringify(resp.data));
+        if (!resp.data || resp.data.code !== 0) {
+            const errMsg = resp.data.message ? JSON.stringify(resp.data.message) : '\"/api/removeVocabularyWords\"请求失败,请检查网络';
+            const err = new Error();
+            Object.assign(err, {
+                _type: 'api',
+                _message: errMsg,
+            });
+            throw err;
+        }
+    } catch (e) {
+        Object.assign(e, {
+            _type: e._type || 'network',
+            _message: e._message || '接口请求错误 - ' + JSON.stringify(e),
+        });
+        throw e;
+    }
+}
+
+
 exports.authorization = authorization;
 exports.loginByCode = loginByCode;
 exports.getUserInfo = getUserInfo;
 exports.getUserConfig = getUserConfig;
 exports.parseContent3 = parseContent3;
 exports.lookupDict2 = lookupDict2;
+exports.removeVocabularyWords = removeVocabularyWords;
+exports.submitVocabulary = submitVocabulary;
