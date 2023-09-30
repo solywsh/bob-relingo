@@ -30,12 +30,13 @@ function supportLanguages() {
 
 function translate(query, completion) {
     (async () => {
+        const userConfig = config.getConfig();
+        await utils.updateTokenConfig(userConfig);
         if (await utils.checkVocabulary(query, completion)){
             return;
         }
         const sourceLanguage = langMap.get(query.detectFrom);
         const targetLanguage = langMap.get(query.detectTo);
-        const userConfig = config.getConfig();
         const source_lang = sourceLanguage || 'en';
         const target_lang = targetLanguage || userConfig.native;
         const translate_text = query.text || '';

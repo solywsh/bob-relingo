@@ -38,4 +38,15 @@ async function checkVocabulary(query,  completion) {
     return false;
 }
 
+// 更新token和用户信息
+// 24h = 86400000ms
+async function updateTokenConfig(userConfig) {
+    const now = new Date().getTime();
+    if (now - userConfig.tokenUpdatedAt > 86400000) {
+        await relingo.getUserInfo();
+        await relingo.getUserConfig();
+    }
+}
+
 exports.checkVocabulary = checkVocabulary;
+exports.updateTokenConfig = updateTokenConfig;
