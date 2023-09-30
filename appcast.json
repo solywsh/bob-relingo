@@ -2,6 +2,13 @@
   "identifier": "com.solywsh.bob.relingo",
   "versions": [
     {
+      "version": "0.0.3",
+      "desc": "sentence translation",
+      "sha256": "3721197248584673c53309a8134eaca30b9cbc5e359720a935654ce7015d271c",
+      "url": "https://github.com/solywsh/bob-relingo/releases/download/v0.0.3/bob-relingo_v0.0.3.bobplugin",
+      "minBobVersion": "1.8.0"
+    },
+    {
       "version": "0.0.2",
       "desc": "word translation",
       "sha256": "19b4e8e4581fcf2c50b863e8a2c6ab5e76179635fdebf938d849a93f26ffc5ce",
