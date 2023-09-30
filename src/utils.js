@@ -11,7 +11,6 @@ async function checkVocabulary(query,  completion) {
             const lastWords = userConfig.lastWords;
             userConfig.lastWords = '';
             config.updateConfig(userConfig);
-
             completion({
                 result: {
                     from: query.detectFrom,

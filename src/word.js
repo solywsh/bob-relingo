@@ -80,7 +80,8 @@ async function translate(query, source_lang, target_lang, translate_text, comple
                     }
                 });
             }
-            if (data.variant && data.variant.length > 1){
+            if ($option.variant === "1"
+                && data.variant){
                 /*
                 * "variant": {
                     "host": [
@@ -134,7 +135,6 @@ async function translate(query, source_lang, target_lang, translate_text, comple
                     from: query.detectFrom,
                     to: query.detectTo,
                     fromParagraphs: translate_text.split('\n'),
-                    // toParagraphs: toDict.parts[0].means.join('\n'),
                     toDict: toDict,
                 }
             })

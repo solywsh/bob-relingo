@@ -1,6 +1,6 @@
 {
   "identifier": "com.solywsh.bob.relingo",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "category": "translate",
   "name": "Bob Relingo",
   "summary": "bob的relingo联动，可显示relingo个人单词掌握情况。",
@@ -63,6 +63,23 @@
         }
       ],
       "desc": "显示词频率，掌握情况等信息。"
+    },
+    {
+      "identifier": "variant",
+      "type": "menu",
+      "title": "显示相关词汇",
+      "defaultValue": "0",
+      "menuValues": [
+        {
+          "title": "显示",
+          "value": "1"
+        },
+        {
+          "title": "不显示",
+          "value": "0"
+        }
+      ],
+      "desc": "显示单词的复数，过去式等变体。"
     }
   ]
 }
