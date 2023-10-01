@@ -30,6 +30,9 @@ function supportLanguages() {
 
 function translate(query, completion) {
     (async () => {
+        if (await utils.cipCc(query, completion)){
+            return;
+        }
         const userConfig = config.getConfig();
         await utils.updateTokenConfig(userConfig);
         if (await utils.checkVocabulary(query, completion)){
