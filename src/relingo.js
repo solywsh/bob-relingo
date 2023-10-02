@@ -349,6 +349,52 @@ async function submitVocabulary(words) {
 }
 
 
+// relingo 段落翻译
+async function translateParagraph(query, from, to, completion) {
+    try {
+        const userConfig = config.getConfig();
+        const resp = await $http.request({
+            method: "POST",
+            url: relingoUrl + "/api/translateParagraph",
+            body: {
+                "text": query.text,
+                "to": to,
+                "providerId": $option.translationEngine,
+            },
+            header: {
+                'x-relingo-lang': userConfig.lang,
+                'x-relingo-token': userConfig.token,
+                'Content-Type': 'application/json',
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.0.0 Safari/537.36'
+            }
+        });
+        if (resp.data && resp.data.code === 0) {
+            completion({
+                result: {
+                    from: query.detectFrom,
+                    to: userConfig.native,
+                    toParagraphs: resp.data.split('\n'),
+                },
+            });
+        } else {
+            const errMsg = resp.data.message ? JSON.stringify(resp.data.message) : '\"/api/removeVocabularyWords\"请求失败,请检查网络';
+            const err = new Error();
+            Object.assign(err, {
+                _type: 'api',
+                _message: errMsg,
+            });
+            throw err;
+        }
+    } catch (e) {
+        Object.assign(e, {
+            _type: e._type || 'network',
+            _message: e._message || '接口请求错误 - ' + JSON.stringify(e),
+        });
+        throw e;
+    }
+}
+
+
 exports.authorization = authorization;
 exports.loginByCode = loginByCode;
 exports.getUserInfo = getUserInfo;

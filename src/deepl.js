@@ -85,9 +85,9 @@ async function translate(query, from, to, completion) {
         });
         throw err;
     }
-    const source_lang = sourceLanguage || 'ZH';
-    const target_lang = targetLanguage || 'EN';
-    const translate_text = query || '';
+    const source_lang = sourceLanguage || 'EN';
+    const target_lang = targetLanguage || 'ZH';
+    const translate_text = query.text || '';
     if (translate_text !== '') {
         const url = 'https://www2.deepl.com/jsonrpc';
         let id = getRandomNumber()

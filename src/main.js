@@ -30,12 +30,12 @@ function supportLanguages() {
 
 function translate(query, completion) {
     (async () => {
-        if (await utils.cipCc(query, completion)){
+        if (await utils.cipCc(query, completion)) {
             return;
         }
         const userConfig = config.getConfig();
         await utils.updateTokenConfig(userConfig);
-        if (await utils.checkVocabulary(query, completion)){
+        if (await utils.checkVocabulary(query, completion)) {
             return;
         }
         const sourceLanguage = langMap.get(query.detectFrom);
@@ -55,22 +55,22 @@ function translate(query, completion) {
             // 英文单词判定正则表达式
             if (sourceLanguage === 'en'
                 && /^[a-zA-Z,\.\?!'\s]+$/.test(translate_text)
-                && translate_text.split(/\s+/).filter(word => /^[a-zA-Z\s]+$/.test(word)).length === 1){
+                && translate_text.split(/\s+/).filter(word => /^[a-zA-Z\s]+$/.test(word)).length === 1) {
                 // 验证是否登录
                 if ($option.email !== ""
-                    && userConfig.token !== ""){
+                    && userConfig.token !== "") {
                     try {
-                        await words.translate(query, source_lang, target_lang, translate_text, completion);
-                    }catch (e) {
+                        await words.translate(query, source_lang, target_lang, completion);
+                    } catch (e) {
                         // relingo 未收录使用deepl翻译
-                        if (e._type !== 'notFound' ){
+                        if (e._type !== 'notFound') {
                             throw e;
                         }
                     }
                 }
             }
             // 默认deepL
-            await deepl.translate(translate_text, sourceLanguage, targetLanguage , completion);
+            await deepl.translate(query, sourceLanguage, targetLanguage , completion);
         }
     })().catch((err) => {
         completion({

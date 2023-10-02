@@ -13,7 +13,7 @@
 3. 安装本插件
    1. Bob插件安装[教程](https://bobtranslate.com/guide/advance/plugin.html)
    2. 本插件下载[地址](https://github.com/solywsh/bob-relingo/releases)，点击`*.bobplugin`文件进行下载
-4. 插件设置[设置](#设置)
+4. 插件[设置](#设置)
 
 ## 效果
 

@@ -4,21 +4,21 @@ var locales = require('./locales.js');
 const {configPath} = require("./config");
 
 // 单词翻译
-async function translate(query, source_lang, target_lang, translate_text, completion) {
+async function translate(query, source_lang, target_lang, completion) {
     try {
         let data = {};
         const wordModel = $option.wordModel;
         const additionalDisplay = $option.additionalDisplay;
         if (wordModel==='1'){
             // 全词本查询
-            data = await relingo.lookupDict2(target_lang, translate_text);
+            data = await relingo.lookupDict2(target_lang, query.text);
         }else {
             // 个人词本查询
-            data = await relingo.parseContent3(target_lang, translate_text);
+            data = await relingo.parseContent3(target_lang, query.text);
         }
         if (data) {
             const toDict = {
-                word: translate_text,
+                word: query.text,
                 phonetics: [], // 音标
                 parts: [], // 词性
                 exchanges: [],
@@ -30,7 +30,7 @@ async function translate(query, source_lang, target_lang, translate_text, comple
                     "value": data.phonetic.us[0],
                     "tts": {
                         "type": "url",
-                        "value": "https://dict.youdao.com/dictvoice?audio=" + translate_text + '&type=2'
+                        "value": "https://dict.youdao.com/dictvoice?audio=" + query.text + '&type=2'
                     }
                 })
             }
@@ -40,30 +40,11 @@ async function translate(query, source_lang, target_lang, translate_text, comple
                     "value": data.phonetic.uk[0],
                     "tts": {
                         "type": "url",
-                        "value": "https://dict.youdao.com/dictvoice?audio=" + translate_text + '&type=2'
+                        "value": "https://dict.youdao.com/dictvoice?audio=" + query.text + '&type=2'
                     }
                 })
             }
             if (data.translations){
-                /*"translations": [
-                    {
-                        "target": "主机",
-                        "pos": "NOUN",
-                        "score": 0.2101
-                    },
-                    {
-                        "target": "宿主",
-                        "pos": "NOUN",
-                        "score": 0.1296
-                    },
-                    {
-                        "target": "主持",
-                        "pos": "VERB",
-                        "score": 0.0526
-                    }
-                    ....
-                ],*/
-
                 // 创建一个对象来存储不同 "pos" 值对应的 "target" 值
                 let posMap = {};
                 data.translations.forEach((item)=>{
@@ -82,23 +63,6 @@ async function translate(query, source_lang, target_lang, translate_text, comple
             }
             if ($option.variant === "1"
                 && data.variant){
-                /*
-                * "variant": {
-                    "host": [
-                        "singular"
-                    ],
-                    "hosts": [
-                        "plural",
-                        "thirdPersonSingular"
-                    ],
-                    "hosted": [
-                        "pastTense",
-                        "pastParticiple"
-                    ],
-                    "hosting": [
-                        "presentParticiple"
-                    ]
-                },*/
                 for(const key in data.variant){
                     if (data.variant.hasOwnProperty(key)) {
                         /*"hosts": ["plural","thirdPersonSingular"],*/
@@ -134,7 +98,7 @@ async function translate(query, source_lang, target_lang, translate_text, comple
                 result: {
                     from: query.detectFrom,
                     to: query.detectTo,
-                    fromParagraphs: translate_text.split('\n'),
+                    fromParagraphs: query.text.split('\n'),
                     toDict: toDict,
                 }
             })
