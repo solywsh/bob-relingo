@@ -2,6 +2,13 @@
   "identifier": "com.solywsh.bob.relingo",
   "versions": [
     {
+      "version": "0.0.8",
+      "desc": "optimize translation functions",
+      "sha256": "0d9bd93bfa7efbf07d473350b4ee3cbdd635a616e0fae9f02807509afd46600d",
+      "url": "https://github.com/solywsh/bob-relingo/releases/download/v0.0.8/bob-relingo_v0.0.8.bobplugin",
+      "minBobVersion": "1.8.0"
+    },
+    {
       "version": "0.0.7",
       "desc": "Merge remote-tracking branch 'origin/main'",
       "sha256": "aab2dbe7420c7f6050be43b3bfc8fe68906b0cea69a460ca57b8021a75d7c29d",
