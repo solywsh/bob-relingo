@@ -72,7 +72,6 @@ function getTimeStamp(iCount) {
 }
 
 
-
 // deepl 句子翻译
 async function translate(query, from, to, completion) {
     const targetLanguage = langMap.get(to);
@@ -127,13 +126,99 @@ async function translate(query, from, to, completion) {
                     },
                 });
             } else {
-                const errMsg = resp.data ? JSON.stringify(resp.data) : '未知错误'
+                const errMsg = resp.data.error.message ? JSON.stringify(resp.data.error.message) : '未知错误' + JSON.stringify(resp.data);
+                if (errMsg === "Too many requests") {
+                    completion({
+                        error: {
+                            type: 'api',
+                            message: "达到翻译限制",
+                        },
+                    });
+                } else {
+                    completion({
+                        error: {
+                            type: 'api',
+                            message: errMsg,
+                        },
+                    });
+                }
+            }
+        } catch (e) {
+            Object.assign(e, {
+                _type: 'network',
+                _message: '接口请求错误 - ' + JSON.stringify(e),
+            });
+            throw e;
+        }
+    }
+}
+
+
+// {"translations":[{"detected_source_language":"EN","text":"你好，世界"}]}
+async function translateApi(query, from, to, completion) {
+    if ($option.apikey === '') {
+        const err = new Error();
+        Object.assign(err, {
+            _type: 'param',
+            _message: 'apikey不能为空',
+        });
+        throw err;
+    }
+    const apiKey = $option.apikey;
+    const targetLanguage = langMap.get(to);
+    const sourceLanguage = langMap.get(from);
+    if (!targetLanguage) {
+        const err = new Error();
+        Object.assign(err, {
+            _type: 'unsupportLanguage',
+            _message: '不支持该语种',
+        });
+        throw err;
+    }
+    const source_lang = sourceLanguage || 'EN';
+    const target_lang = targetLanguage || 'ZH';
+    const translate_text = query.text || '';
+    if (translate_text !== '') {
+        let url = ""
+        if ($option.translationEngine === 'deepl-api-free') {
+            url = 'https://api-free.deepl.com/v2/translate';
+        } else if ($option.translationEngine === 'deepl-api-pro') {
+            url = 'https://api.deepl.com/v2/translate'
+        }
+        try {
+            const resp = await $http.request({
+                method: "POST",
+                url: url,
+                header: {
+                    'Content-Type': 'application/json',
+                    'Authorization': 'DeepL-Auth-Key ' + apiKey,
+                },
+                body: {
+                    'text': [
+                        translate_text
+                    ],
+                    "target_lang": target_lang,
+                    "source_lang": source_lang,
+                }
+            });
+            if (resp.data && resp.data.translations && resp.data.translations.length) {
                 completion({
-                    error: {
-                        type: 'unknown',
-                        message: errMsg,
+                    result: {
+                        from: query.detectFrom,
+                        to: query.detectTo,
+                        toParagraphs: resp.data.translations[0].text.split('\n'),
                     },
                 });
+            } else {
+                const errMsg = resp.data ? JSON.stringify(resp.data) : '未知错误';
+                {
+                    completion({
+                        error: {
+                            type: 'api',
+                            message: errMsg,
+                        },
+                    });
+                }
             }
         } catch (e) {
             Object.assign(e, {
@@ -146,3 +231,4 @@ async function translate(query, from, to, completion) {
 }
 
 exports.translate = translate;
+exports.translateApi = translateApi;

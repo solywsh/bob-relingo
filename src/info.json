@@ -80,6 +80,37 @@
         }
       ],
       "desc": "显示单词的复数，过去式等变体。"
+    },
+    {
+      "identifier": "translationEngine",
+      "type": "menu",
+      "title": "翻译引擎",
+      "defaultValue": "deepl-local",
+      "menuValues": [
+        {
+          "title": "DeepL本地",
+          "value": "deepl-local"
+        },
+        {
+          "title": "DeepL API Free",
+            "value": "deepl-api-free"
+        },
+        {
+          "title": "DeepL API Pro",
+          "value": "deepl-api-pro"
+        }
+      ],
+      "desc": "DeepL本地(默认)采用本地调用，其余DeepL API 需要自行申请API Key，并填入下方。"
+    },
+    {
+      "identifier": "apikey",
+      "type": "text",
+      "title": "API Key",
+      "desc": "使用DeepL本地不需要填写。",
+      "textConfig": {
+        "type": "secure",
+        "placeholderText": "11451419-1981-0111-1111-11111111111"
+      }
     }
   ]
 }

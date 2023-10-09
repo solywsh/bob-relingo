@@ -69,8 +69,17 @@ function translate(query, completion) {
                     }
                 }
             }
-            // 默认deepL
-            await deepl.translate(query, sourceLanguage, targetLanguage , completion);
+            switch ($option.translationEngine) {
+                case 'deepl-local':
+                    await deepl.translate(query, sourceLanguage, targetLanguage, completion);
+                    break
+                case 'deepl-api-free':
+                    await deepl.translateApi(query, sourceLanguage, targetLanguage, completion);
+                    break
+                case 'deepl-api-pro':
+                    await deepl.translateApi(query, sourceLanguage, targetLanguage, completion);
+                    break
+            }
         }
     })().catch((err) => {
         completion({
