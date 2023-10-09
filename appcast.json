@@ -3,6 +3,13 @@
   "versions": [
     {
       "version": "0.0.8",
+      "desc": "Add api calls for deepL",
+      "sha256": "b1118fde41da60bab7acc77392529ad483c67349ab64450f8eb00bc01e8fe80c",
+      "url": "https://github.com/solywsh/bob-relingo/releases/download/v0.0.8/bob-relingo_v0.0.8.bobplugin",
+      "minBobVersion": "1.8.0"
+    },
+    {
+      "version": "0.0.8",
       "desc": "optimize translation functions",
       "sha256": "0d9bd93bfa7efbf07d473350b4ee3cbdd635a616e0fae9f02807509afd46600d",
       "url": "https://github.com/solywsh/bob-relingo/releases/download/v0.0.8/bob-relingo_v0.0.8.bobplugin",
