@@ -98,7 +98,7 @@ async function translate(query, source_lang, target_lang, completion) {
                 result: {
                     from: query.detectFrom,
                     to: query.detectTo,
-                    fromParagraphs: query.text.split('\n'),
+                    // fromParagraphs: query.text.split('\n'),
                     toDict: toDict,
                 }
             })

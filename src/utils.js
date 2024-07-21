@@ -68,7 +68,7 @@ async function cipCc(query, completion) {
                 // $log.info('cipCc ==> ' + JSON.stringify(resp.data))
                 completion({
                     result: {
-                        fromParagraphs: text,
+                        // fromParagraphs: text, // bob 新版本更新后不可传，会提示插件未返回有效结果，应该是对该字段进行校验
                         toParagraphs: JSON.stringify(resp.data).replaceAll('"', '').replaceAll('\\n', '\n').replaceAll('\\t', '\t').split('\n'),
                     },
                 });

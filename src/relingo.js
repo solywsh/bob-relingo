@@ -143,7 +143,9 @@ async function getUserConfig() {
         if (resp.data && resp.data.code === 0) {
             userConfig.books = [];
             // userConfig.native = resp.data.data.config.lang.native; // 翻译语言，鉴于relingo其他语言翻译不够完善，暂时不使用
-            for (const book of resp.data.data.config.books) {
+            // 在部分用户中books被移到了langBooks下，以语言进行区分字典，应该是官方对接口进行调整
+            // 这里放弃使用旧版本从config.books字段获取字典数据
+            for (const book of resp.data.data.config.langBooks.en) {
                 if (book.name === "strange") {
                     userConfig.strange = book._id;
                     userConfig.books.push(book._id);

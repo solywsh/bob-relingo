@@ -1,6 +1,6 @@
 {
   "identifier": "com.solywsh.bob.relingo",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "category": "translate",
   "name": "Bob Relingo",
   "summary": "bob的relingo联动，可显示relingo个人单词掌握情况。",
