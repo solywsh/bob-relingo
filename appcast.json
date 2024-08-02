@@ -2,6 +2,13 @@
   "identifier": "com.solywsh.bob.relingo",
   "versions": [
     {
+      "version": "0.0.10",
+      "desc": "fix: 修复英式发音错误 close #5",
+      "sha256": "e2a11e3370525d4fd2a0e4c7f4f53bce5d485ff35b23dc429ffa4d7796abb4bf",
+      "url": "https://github.com/solywsh/bob-relingo/releases/download/v0.0.10/bob-relingo_v0.0.10.bobplugin",
+      "minBobVersion": "1.8.0"
+    },
+    {
       "version": "0.0.9",
       "desc": "fix: 修复config获取错误&&移除fromParagraphs以适配新版bob",
       "sha256": "b4a9e6d5b47baeb2fc5e9b3ec7676acac70ca44c21b9774e37aa56323c80b55b",
