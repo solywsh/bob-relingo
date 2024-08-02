@@ -40,7 +40,7 @@ async function translate(query, source_lang, target_lang, completion) {
                     "value": data.phonetic.uk[0],
                     "tts": {
                         "type": "url",
-                        "value": "https://dict.youdao.com/dictvoice?audio=" + query.text + '&type=2'
+                        "value": "https://dict.youdao.com/dictvoice?audio=" + query.text + '&type=1'
                     }
                 })
             }
